@@ -1,0 +1,59 @@
+{
+  "game": "valorant",
+  "teamA": [
+    {
+      "name": "NeyZnn",
+      "rank": "immortal1"
+    },
+    {
+      "name": "frozenroy",
+      "rank": "platinum3"
+    },
+    {
+      "name": "enzo",
+      "rank": "gold1"
+    },
+    {
+      "name": "kilarder",
+      "rank": "silver2"
+    },
+    {
+      "name": "gabin",
+      "rank": "unranked"
+    }
+  ],
+  "teamB": [
+    {
+      "name": "elraton",
+      "rank": "ascendant3"
+    },
+    {
+      "name": "Hexa",
+      "rank": "platinum3"
+    },
+    {
+      "name": "excel",
+      "rank": "platinum2"
+    },
+    {
+      "name": "NewG",
+      "rank": "bronze2"
+    },
+    {
+      "name": "vano",
+      "rank": "unranked"
+    }
+  ],
+  "bestOf": 3,
+  "matches": [
+    {
+      "scoreA": 0,
+      "scoreB": 13
+    },
+    0,
+    0
+  ],
+  "currentMatch": 1,
+  "roundA": 0,
+  "roundB": 0
+}

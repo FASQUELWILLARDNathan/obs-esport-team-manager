@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="controls">
+    <div class="game-selection">
+      <label>Game:</label>
+      <button onclick="setGame('valorant')" id="valorantBtn" style="opacity: 1;">Valorant</button>
+      <button onclick="setGame('lol')" id="lolBtn" style="opacity: 0.5;">League of Legends</button>
+    </div>
+
+    <div class="score-section">
+      <label>Best Of:</label>
+      <button onclick="setBestOf(1)" id="bo1">BO1</button>
+      <button onclick="setBestOf(3)" id="bo3">BO3</button>
+      <button onclick="setBestOf(5)" id="bo5">BO5</button>
+      <button onclick="resetScore()" style="background-color: #ff6b6b;">Reset Score</button>
+    </div>
+
+    <div class="match-score">
+      <div class="score-control">
+        <button onclick="addScore('teamA')">+ Team A</button>
+        <span id="scoreDisplay">0 - 0</span>
+        <button onclick="addScore('teamB')">+ Team B</button>
+      </div>
+    </div>
+  </div>
+
+  <h2>Team A</h2>
+  <div id="teamA" class="team dropzone"></div>
+
+  <h2>Team B</h2>
+  <div id="teamB" class="team dropzone"></div>
+
+  <button onclick="save()">💾 Save</button>
+  <button onclick="importData()">📂 Import</button>
+  <button onclick="balanceTeams()">⚖️ Auto Balance</button>
+
+  <script src="admin.js"></script>
+</body>
+
+</html>
