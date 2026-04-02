@@ -142,4 +142,4 @@ The rank list updates automatically and logos change accordingly.
 
 ## License
 
-MIT
+NeyZnn
