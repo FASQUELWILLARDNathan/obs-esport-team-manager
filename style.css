@@ -29,7 +29,6 @@ body {
     align-items: flex-start;
 }
 
-/* PLAYER CARD */
 .player {
     display: flex;
     align-items: center;
@@ -38,6 +37,12 @@ body {
     padding: 8px 12px;
     border-radius: 10px;
     min-width: 180px;
+    cursor: grab;
+    user-select: none;
+}
+
+.player:active {
+    cursor: grabbing;
 }
 
 /* inversion pour la team gauche */
@@ -45,7 +50,6 @@ body {
     flex-direction: row-reverse;
 }
 
-/* images rank */
 .player img {
     width: 32px;
     height: 32px;

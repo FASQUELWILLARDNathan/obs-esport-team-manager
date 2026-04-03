@@ -6,19 +6,19 @@
       "rank": "immortal1"
     },
     {
-      "name": "Hexa",
+      "name": "frozenroy",
       "rank": "platinum3"
-    },
-    {
-      "name": "enzo",
-      "rank": "gold1"
     },
     {
       "name": "kilarder",
       "rank": "silver2"
     },
     {
-      "name": "gabin",
+      "name": "vano",
+      "rank": "iron3"
+    },
+    {
+      "name": "Monkey",
       "rank": "unranked"
     }
   ],
@@ -28,32 +28,29 @@
       "rank": "ascendant3"
     },
     {
-      "name": "frozenroy",
-      "rank": "platinum3"
-    },
-    {
       "name": "excel",
       "rank": "platinum2"
     },
     {
-      "name": "NewG",
-      "rank": "bronze2"
+      "name": "enzo",
+      "rank": "gold1"
     },
     {
-      "name": "vano",
+      "name": "NewG",
+      "rank": "bronze1"
+    },
+    {
+      "name": "gabin",
       "rank": "unranked"
     }
   ],
   "bestOf": 3,
   "matches": [
-    {
-      "scoreA": 0,
-      "scoreB": 13
-    },
+    0,
     0,
     0
   ],
-  "currentMatch": 1,
+  "currentMatch": 0,
   "roundA": 0,
   "roundB": 0
 }

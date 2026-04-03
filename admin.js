@@ -9,6 +9,9 @@ let data = {
     roundB: 0
 };
 
+let dropZonesSetup = false;
+let hoveredPlayerIndex = null;
+
 const valorantRanks = [
     "unranked",
     "iron1", "iron2", "iron3",
@@ -66,6 +69,8 @@ function render() {
             const div = document.createElement("div");
             div.className = "player";
             div.draggable = true;
+            div.dataset.index = index;
+            div.dataset.team = team;
 
             div.innerHTML = `
         <input value="${p.name}" onchange="updateName('${team}', ${index}, this.value)">
@@ -81,25 +86,93 @@ function render() {
       `;
 
             div.addEventListener("dragstart", e => {
+                // Ne pas commencer le drag si on clique sur un input ou select
+                if (e.target.tagName === "INPUT" || e.target.tagName === "SELECT") {
+                    e.preventDefault();
+                    return;
+                }
+                
+                e.stopPropagation();
+                e.dataTransfer.effectAllowed = "move";
                 e.dataTransfer.setData("text/plain", JSON.stringify({ team, index }));
+                console.log("Dragstart from", team, index);
+            });
+
+            // Tracer le joueur survolé
+            div.addEventListener("dragenter", e => {
+                hoveredPlayerIndex = index;
+                console.log("Dragenter on player", team, index);
+            });
+
+            div.addEventListener("dragleave", e => {
+                if (e.target === div) {
+                    hoveredPlayerIndex = null;
+                    console.log("Dragleave from player", team, index);
+                }
             });
 
             container.appendChild(div);
         });
+    });
+    
+    if (!dropZonesSetup) {
+        setupDropZones();
+        dropZonesSetup = true;
+    }
+}
 
-        container.addEventListener("dragover", e => e.preventDefault());
+function setupDropZones() {
+    ["teamA", "teamB"].forEach(team => {
+        const container = document.getElementById(team);
+        
+        container.addEventListener("dragover", e => {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = "move";
+        });
 
         container.addEventListener("drop", e => {
-            const dragged = JSON.parse(e.dataTransfer.getData("text/plain"));
-            const targetTeam = team;
+            e.preventDefault();
+            e.stopPropagation();
+            console.log("Drop event detected", team, "hovered index:", hoveredPlayerIndex);
+            
+            try {
+                const dragged = JSON.parse(e.dataTransfer.getData("text/plain"));
+                
+                const targetTeam = team;
 
-            const player = data[dragged.team][dragged.index];
+                if (dragged.team === targetTeam) {
+                    console.log("Même équipe, annulation");
+                    hoveredPlayerIndex = null;
+                    return;
+                }
 
-            data[dragged.team].splice(dragged.index, 1);
+                // Si l'équipe cible n'a pas 5 joueurs, on ne peut pas faire d'échange
+                if (data[targetTeam].length !== 5 || data[dragged.team].length !== 5) {
+                    console.log("Échange impossible - tailles:", data[dragged.team].length, data[targetTeam].length);
+                    alert("Les deux équipes doivent avoir exactement 5 joueurs pour échanger.");
+                    hoveredPlayerIndex = null;
+                    return;
+                }
 
-            data[targetTeam].push(player);
+                let targetIndex = hoveredPlayerIndex !== null ? hoveredPlayerIndex : data[targetTeam].length - 1;
 
-            render();
+                const playerToMove = data[dragged.team][dragged.index];
+                const playerToSwap = data[targetTeam][targetIndex];
+
+                console.log("Exchange:", playerToMove.name, "<->", playerToSwap.name, "at index", targetIndex);
+
+                // Remplacer les joueurs
+                data[dragged.team][dragged.index] = playerToSwap;
+                data[targetTeam][targetIndex] = playerToMove;
+
+                console.log("Après échange - Team A:", data.teamA.map(p => p.name), "Team B:", data.teamB.map(p => p.name));
+                hoveredPlayerIndex = null;
+                render();
+                save();
+            } catch(err) {
+                console.error("Drop error:", err);
+                hoveredPlayerIndex = null;
+            }
         });
     });
 }
@@ -271,6 +344,18 @@ function rankToValue(rank) {
     let division = match[2] ? parseInt(match[2]) : 4;
 
     return base + division;
+}
+
+function sortPlayersByRank() {
+    data.teamA.sort((a, b) => rankToValue(b.rank) - rankToValue(a.rank));
+    data.teamB.sort((a, b) => rankToValue(b.rank) - rankToValue(a.rank));
+    
+    console.log("Teams sorted by rank");
+    console.log("Team A:", data.teamA.map(p => `${p.name} (${p.rank})`));
+    console.log("Team B:", data.teamB.map(p => `${p.name} (${p.rank})`));
+    
+    render();
+    save();
 }
 
 function balanceTeams() {
